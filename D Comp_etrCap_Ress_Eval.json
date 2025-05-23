@@ -1,0 +1,99 @@
+{
+  "competenceDetails": {
+    "C1.1 (Participer à un collectif de travail)": {
+      "etreCapable": "Identifier les partenaires, leur fonction et leur mission. Mesurer la responsabilité collective du groupe et repérer la mission individuelle de chacun. S’informer, écouter, analyser, intervenir dans le cadre de sa mission. Se situer dans le groupe et participer au travail.",
+      "conditionsRessources": "Situation professionnelle « réelle ou simulée », dans un environnement de travail (organigramme, partenaires, interlocuteurs, relations extérieures, etc.). Mise en présence des membres d’un groupe (en interne à l’entreprise, en coactivité d’intervention, …)",
+      "criteresEvaluation": "Les missions des différents partenaires sont clairement identifiées. L’enjeu de sa propre mission est explicité. Les limites de son intervention sont respectées. L’incidence de son intervention est identifiée dans la chaîne de responsabilités. Les interventions sont pertinentes."
+    },
+    "C1.2 (Collecter et gérer des informations)": {
+      "etreCapable": "Rechercher les informations nécessaires à la résolution d’un problème et mesurer la pertinence de leur source. Classer les informations en fonction de critères définis. Organiser et synthétiser les informations. Utiliser les outils numériques et les logiciels spécifiques pour la gestion de l’information.",
+      "conditionsRessources": "Documents techniques, Dossier d’Ouvrage Exécuté (DOE), Plans, Normes, Réglementations, Logiciels de gestion documentaire, Internet.",
+      "criteresEvaluation": "Les informations collectées sont pertinentes. Les sources d’information sont fiables. Les informations sont classées selon des critères pertinents. Les informations sont organisées de manière logique et synthétique. L’utilisation des outils numériques est efficace."
+    },
+    "C1.3 (Rendre compte oralement)": {
+      "etreCapable": "Adapter son langage à son interlocuteur. Exposer clairement une situation, un problème, une proposition. Argumenter ses choix. Répondre aux questions. Écouter activement.",
+      "conditionsRessources": "Réunion de chantier, entretien, présentation orale, situation simulée.",
+      "criteresEvaluation": "Le langage est adapté à l’interlocuteur. L’exposé est clair et concis. Les arguments sont pertinents. Les réponses aux questions sont précises. L’écoute est active."
+    },
+    "C1.4 (Rédiger un compte-rendu)": {
+      "etreCapable": "Structurer un compte-rendu. Rédiger de manière claire et précise. Respecter les conventions de rédaction. Utiliser un vocabulaire technique approprié. Synthétiser les informations essentielles.",
+      "conditionsRessources": "Modèles de compte-rendu, notes de réunion, outils de traitement de texte.",
+      "criteresEvaluation": "La structure du compte-rendu est pertinente. La rédaction est claire et précise. Les conventions de rédaction sont respectées. Le vocabulaire technique est approprié. Les informations essentielles sont synthétisées."
+    },
+    "C1.5 (Utiliser les outils de communication)": {
+      "etreCapable": "Maîtriser les outils de communication écrits (e-mail, messagerie instantanée, etc.). Maîtriser les outils de communication oraux (téléphone, visioconférence, etc.). Utiliser les outils collaboratifs.",
+      "conditionsRessources": "Logiciels de messagerie, outils de visioconférence, plateformes collaboratives.",
+      "criteresEvaluation": "L’utilisation des outils de communication est efficace et appropriée. La communication est claire et professionnelle. La collaboration est facilitée par l’utilisation des outils."
+    },
+    "C2.1 (Analyser un dossier)": {
+      "etreCapable": "Identifier les informations clés. Vérifier la complétude et la cohérence des documents. Repérer les anomalies, les manques et les erreurs. Extraire les données pertinentes pour l’étude. Synthétiser l’analyse du dossier.",
+      "conditionsRessources": "Dossiers de consultation des entreprises (DCE), plans, notices techniques, réglementations, outils d’analyse de documents.",
+      "criteresEvaluation": "Les informations clés sont identifiées. La complétude et la cohérence des documents sont vérifiées. Les anomalies et les erreurs sont repérées. Les données pertinentes sont extraites. L’analyse du dossier est synthétisée de manière claire et concise."
+    },
+    "C2.2 (Vérifier la cohérence du projet architectural avec les contraintes réglementaires et techniques)": {
+      "etreCapable": "Identifier les réglementations applicables (urbanisme, construction, accessibilité, sécurité incendie, etc.). Comparer le projet aux exigences réglementaires. Identifier les incompatibilités et les non-conformités. Proposer des ajustements pour la mise en conformité. Vérifier la faisabilité technique du projet (structure, fluides, thermique, etc.).",
+      "conditionsRessources": "Réglementations (PLU, RT, ERP, PMR, etc.), DTU, Eurocodes, normes techniques, avis techniques, logiciels de simulation (thermique, fluides, structure), plans du projet.",
+      "criteresEvaluation": "Les réglementations applicables sont identifiées. La comparaison du projet aux exigences réglementaires est pertinente. Les incompatibilités et non-conformités sont clairement identifiées. Les ajustements proposés sont pertinents et efficaces. La faisabilité technique du projet est vérifiée de manière rigoureuse."
+    },
+    "C2.3 (Proposer une solution à un problème identifié)": {
+      "etreCapable": "Reformuler le problème de manière claire. Rechercher des solutions alternatives. Analyser les avantages et inconvénients de chaque solution. Choisir la solution la plus pertinente. Justifier le choix de la solution.",
+      "conditionsRessources": "Outils de recherche (internet, bibliothèques), base de données de solutions techniques, retours d’expérience, expertise interne/externe.",
+      "criteresEvaluation": "Le problème est clairement reformulé. Des solutions alternatives sont recherchées. L’analyse des solutions est pertinente. La solution choisie est la plus pertinente. Le choix de la solution est justifié de manière claire et argumentée."
+    },
+    "C3.1 (Effectuer un relevé d’ouvrage)": {
+      "etreCapable": "Préparer le relevé (matériel, accès, sécurité). Identifier les éléments à relever (dimensions, matériaux, systèmes constructifs). Utiliser les outils de mesure (mètre, télémètre laser, scanner 3D). Réaliser des croquis cotés. Transcrire les données relevées dans un support adapté (carnet de relevé, logiciel de dessin).",
+      "conditionsRessources": "Matériel de relevé (mètre, télémètre laser, appareil photo, scanner 3D), carnet de relevé, logiciel de dessin (AutoCAD, Revit, SketchUp).",
+      "criteresEvaluation": "Le relevé est complet et précis. Les éléments à relever sont identifiés. Les outils de mesure sont utilisés correctement. Les croquis sont clairs et cotés. Les données relevées sont transcrites fidèlement."
+    },
+    "C3.2 (Rédiger une notice descriptive)": {
+      "etreCapable": "Identifier les informations à inclure dans la notice (matériaux, finitions, équipements, etc.). Structurer la notice de manière logique. Rédiger de manière claire, concise et précise. Utiliser un vocabulaire technique approprié. Respecter les normes et conventions de rédaction.",
+      "conditionsRessources": "Plans, spécifications techniques, descriptifs types, logiciels de traitement de texte.",
+      "criteresEvaluation": "Les informations incluses sont pertinentes et complètes. La notice est structurée de manière logique. La rédaction est claire, concise et précise. Le vocabulaire technique est approprié. Les normes et conventions de rédaction sont respectées."
+    },
+    "C3.3 (Établir des schémas, des diagrammes, des tableaux synoptiques)": {
+      "etreCapable": "Identifier les informations à représenter. Choisir le type de représentation adapté (schéma, diagramme, tableau). Concevoir la mise en page. Utiliser les symboles et conventions graphiques. Produire des documents clairs et compréhensibles.",
+      "conditionsRessources": "Logiciels de dessin (AutoCAD, Visio), outils de bureautique (Excel, Word).",
+      "criteresEvaluation": "Les informations sont représentées de manière pertinente. Le type de représentation est adapté. La mise en page est claire. Les symboles et conventions graphiques sont utilisés correctement. Les documents sont clairs et compréhensibles."
+    },
+    "C3.4 (Traduire graphiquement une solution technique et architecturale)": {
+      "etreCapable": "Interpréter les intentions architecturales et techniques. Choisir les échelles de représentation adaptées. Utiliser les logiciels de DAO/BIM (AutoCAD, Revit, ArchiCAD). Produire des plans, coupes, façades, détails, perspectives. Respecter les normes graphiques et la charte graphique du projet.",
+      "conditionsRessources": "Plans architecturaux, esquisses, logiciels de DAO/BIM, normes de dessin, charte graphique.",
+      "criteresEvaluation": "Les intentions architecturales et techniques sont interprétées fidèlement. Les échelles de représentation sont adaptées. Les logiciels de DAO/BIM sont maîtrisés. Les documents produits sont conformes aux normes graphiques et à la charte graphique."
+    },
+    "C3.5 (Quantifier les ouvrages)": {
+      "etreCapable": "Identifier les éléments à quantifier. Utiliser les méthodes de quantification (surfaces, linéaires, volumes, unités). Utiliser les outils de quantification (métré, logiciel de devis). Respecter les règles de l’art et les conventions de métré. Présenter les quantitatifs de manière claire et organisée.",
+      "conditionsRessources": "Plans, détails constructifs, Bordereaux des Prix Unitaires (BPU), logiciels de métré/devis.",
+      "criteresEvaluation": "Les éléments à quantifier sont identifiés. Les méthodes de quantification sont utilisées correctement. Les outils de quantification sont maîtrisés. Les quantitatifs sont précis et organisés."
+    },
+    "C3.6 (Estimer le coût des ouvrages)": {
+      "etreCapable": "Identifier les éléments à estimer. Utiliser les méthodes d’estimation (ratio, prix unitaires, déboursés secs). Consulter les bases de données de prix. Appliquer les coefficients (frais généraux, bénéfice, aléas). Présenter les estimations de manière claire et argumentée.",
+      "conditionsRessources": "Quantitatifs, BPU, bases de données de prix, logiciels de devis, indices économiques.",
+      "criteresEvaluation": "Les éléments à estimer sont identifiés. Les méthodes d’estimation sont utilisées correctement. Les bases de données de prix sont consultées. Les coefficients sont appliqués correctement. Les estimations sont fiables et argumentées."
+    },
+    "C3.7 (Réaliser une maquette d’étude)": {
+      "etreCapable": "Interpréter les plans et esquisses pour la maquette. Choisir l’échelle et les matériaux adaptés. Utiliser les outils de découpe et d’assemblage. Réaliser la maquette avec précision et soin. Présenter la maquette pour mettre en valeur le projet.",
+      "conditionsRessources": "Plans, esquisses, matériaux pour maquette (carton, bois, plastique), outils de découpe (cutter, scie), colle.",
+      "criteresEvaluation": "Les plans et esquisses sont interprétés fidèlement. L’échelle et les matériaux sont adaptés. Les outils sont utilisés correctement. La maquette est réalisée avec précision et soin. La présentation de la maquette est pertinente."
+    },
+    "C3.8 (Réaliser une visualisation 3D)": {
+      "etreCapable": "Importer les modèles 2D ou 3D. Appliquer des matériaux et textures. Configurer l'éclairage et les caméras. Rendre les images ou animations. Utiliser les logiciels de rendu 3D.",
+      "conditionsRessources": "Logiciels de modélisation 3D (SketchUp, Blender, 3ds Max, Revit), logiciels de rendu (V-Ray, Enscape), textures et matériaux.",
+      "criteresEvaluation": "Les modèles sont importés correctement. Les matériaux et textures sont appliqués de manière réaliste. L'éclairage et les caméras sont configurés efficacement. Les rendus sont de haute qualité. Les logiciels de rendu 3D sont maîtrisés."
+    },
+    "C4.1 (Ordonner et actualiser un dossier)": {
+      "etreCapable": "Identifier les documents constitutifs du dossier. Classer les documents selon un plan de classement défini. Vérifier la complétude et l’actualisation des documents. Intégrer les documents modificatifs. Assurer la traçabilité des versions.",
+      "conditionsRessources": "Plan de classement, logiciels de gestion documentaire, outils de bureautique (Excel, Word).",
+      "criteresEvaluation": "Les documents sont identifiés et classés correctement. La complétude et l’actualisation du dossier sont assurées. Les documents modificatifs sont intégrés. La traçabilité des versions est respectée."
+    },
+    "C4.2 (Suivre la gestion économique d’un projet)": {
+      "etreCapable": "Identifier les postes de dépenses et de recettes. Suivre l’évolution des coûts et des budgets. Mettre à jour les tableaux de suivi financier. Analyser les écarts et proposer des actions correctives. Préparer les demandes de règlement et les situations de travaux.",
+      "conditionsRessources": "Devis, factures, tableaux de suivi financier, logiciels de comptabilité, outils de bureautique (Excel).",
+      "criteresEvaluation": "Les postes de dépenses et de recettes sont identifiés. L’évolution des coûts est suivie rigoureusement. Les tableaux de suivi financier sont à jour. Les écarts sont analysés et des actions correctives sont proposées. Les demandes de règlement sont préparées correctement."
+    },
+    "C4.3 (Vérifier la conformité de l’ouvrage et des prestations)": {
+      "etreCapable": "Vérifier le respect des procédures administratives. Repérer et analyser les non-conformités. Contrôler le respect des règles de l’art et des tolérances. Vérifier la traçabilité des interventions. Établir les documents de suivi.",
+      "conditionsRessources": "Pièces constitutives du marché, Normes, DTU et Avis techniques, Documents de labellisation ou de certification, Fiches techniques et notices d’utilisation, Rapports de contrôle, Dossier d’intervention ultérieure sur l’ouvrage (DIUO).",
+      "criteresEvaluation": "Les erreurs ou manquements sont signalés. Les non-conformités sont clairement exposées. Les méthodes et outils de contrôle sont pertinents. Le bon achèvement est vérifié. Tous les aléas liés aux malfaçons ou désordres émergents sont pris en compte."
+    }
+  }
+}

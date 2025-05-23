@@ -1,0 +1,49 @@
+{
+  "problematiquesParActivite": {
+    "Activité 1.1 – L’esquisse, les études préliminaires et le diagnostic": [
+      "Comment recueillir efficacement les informations techniques nécessaires au diagnostic ?",
+      "Quelle méthode choisir pour représenter clairement un ouvrage existant ?",
+      "Comment produire des documents précis et conformes aux normes graphiques ?"
+    ],
+    "Activité 1.2 – L’avant-projet sommaire": [
+      "Comment traduire fidèlement les intentions architecturales dans l'avant-projet sommaire ?",
+      "Quelle démarche adopter pour sélectionner et présenter efficacement les matériaux ?",
+      "Comment garantir que les documents produits répondent clairement aux exigences du programme ?"
+    ],
+    "Activité 1.3 – L’avant-projet définitif": [
+      "Comment assurer une intégration cohérente et complète des éléments techniques validés ?",
+      "Quelle méthode utiliser pour quantifier précisément les ouvrages prévus au projet ?",
+      "Comment structurer et présenter efficacement les documents graphiques et écrits définitifs ?"
+    ],
+    "Activité 1.4 – Les autorisations de construire": [
+      "Comment assurer la conformité réglementaire et administrative des dossiers produits ?",
+      "Quelle représentation graphique choisir pour faciliter l’obtention des autorisations ?",
+      "Comment organiser et vérifier l’exhaustivité du dossier administratif à déposer ?"
+    ],
+    "Activité 2.1 – Les études de projet": [
+      "Comment identifier efficacement les informations manquantes ou imprécises ?",
+      "Quelle démarche adopter pour garantir une représentation cohérente et réaliste du chantier ?",
+      "Comment produire des documents techniques fiables facilitant la phase de réalisation ?"
+    ],
+    "Activité 2.2 – L’assistance au maître d’ouvrage pour la passation des contrats de travaux": [
+      "Comment assurer une analyse rigoureuse des offres reçues des entreprises ?",
+      "Quelle méthode efficace adopter pour gérer les échanges et questions durant la consultation ?",
+      "Comment garantir la conformité du dossier marché aux attentes du maître d'ouvrage ?"
+    ],
+    "Activité 3.1 – Les plans d’exécution préalables au démarrage des travaux": [
+      "Comment identifier et résoudre rapidement les incohérences avant le début du chantier ?",
+      "Quelle démarche suivre pour obtenir et intégrer efficacement les informations complémentaires ?",
+      "Comment produire des plans d’exécution clairs, complets et conformes aux normes ?"
+    ],
+    "Activité 3.2 – La direction de l’exécution des marchés de travaux": [
+      "Comment organiser efficacement le suivi documentaire et opérationnel durant les travaux ?",
+      "Quelle méthode employer pour actualiser précisément le calendrier et les relevés du chantier ?",
+      "Comment produire des documents graphiques et écrits exacts et exploitables pendant les travaux ?"
+    ],
+    "Activité 3.3 – La réception et la livraison des ouvrages": [
+      "Comment collecter, organiser et vérifier efficacement l’ensemble des documents de réception ?",
+      "Quelle méthode adopter pour assurer un suivi rigoureux des réserves formulées lors de la réception ?",
+      "Comment produire un Dossier des Ouvrages Exécutés clair, précis et utilisable par tous les acteurs concernés ?"
+    ]
+  }
+}
