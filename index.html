@@ -17,103 +17,104 @@
                 <label for="phase-seance">Phase de la séance :</label>
                 <select id="phase-seance">
                     <option value="">Sélectionner une phase</option>
-                    </select>
+                    <option value="Découverte">Découverte</option>
+                    <option value="Acquisition">Acquisition</option>
+                    <option value="Application">Application</option>
+                    <option value="Évaluation">Évaluation</option>
+                    <option value="Régulation">Régulation</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="intitule-activite">Intitulé de l'Activité / Situation :</label>
                 <input type="text" id="intitule-activite" placeholder="Ex: Gérer un projet de construction en phase étude">
             </div>
             <div class="form-group">
-                <label for="contexte-situation">Contexte de la situation d'évaluation :</label>
-                <textarea id="contexte-situation" rows="6" placeholder="Décrivez le contexte de la situation d'évaluation pour l'élève."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="consigne-travail">Consigne de travail :</label>
-                <textarea id="consigne-travail" rows="6" placeholder="Formulez la consigne de travail claire pour l'élève."></textarea>
-            </div>
-            <div class="form-group">
-                <label for="modalites-evaluation">Modalités d'évaluation (durée, outils, cadre...) :</label>
-                <textarea id="modalites-evaluation" rows="4" placeholder="Précisez la durée, les outils autorisés, le cadre de l'évaluation, etc."></textarea>
+                <label for="contexte-professionnel">Contexte Professionnel de la Situation :</label>
+                <textarea id="contexte-professionnel" rows="4" placeholder="Décrivez le contexte général de cette situation d'évaluation, par exemple le type de projet, le rôle de l'élève, etc."></textarea>
             </div>
             <div class="navigation-buttons">
-                <button id="next-2" class="btn">Suivant</button>
+                <button id="next-1" class="btn">Suivant</button>
             </div>
         </div>
 
         <div id="page-2" class="page">
-            <h2>Page 2: Détail de la Situation</h2>
+            <h2>Page 2: Détails de l'Activité et Problématique</h2>
             <div class="form-group">
-                <label for="activite-professionnelle">Activité professionnelle :</label>
-                <select id="activite-professionnelle">
+                <label for="activite-pro">Activité Professionnelle (du référentiel) :</label>
+                <select id="activite-pro">
                     <option value="">Sélectionner une activité professionnelle</option>
                     </select>
             </div>
             <div class="form-group">
-                <label for="tache">Tâche :</label>
-                <select id="tache">
+                <label for="tache-associee">Tâche Associée (à l'activité pro. sélectionnée) :</label>
+                <select id="tache-associee">
                     <option value="">Sélectionner une tâche</option>
                     </select>
             </div>
             <div class="form-group">
-                <label for="problematique">Problématique :</label>
+                <label for="problematique">Problématique (liée à l'activité pro. sélectionnée) :</label>
                 <select id="problematique">
                     <option value="">Sélectionner une problématique</option>
                     </select>
             </div>
+            <div class="navigation-buttons">
+                <button id="prev-2" class="btn">Précédent</button>
+                <button id="next-2" class="btn">Suivant</button>
+            </div>
+        </div>
+
+        <div id="page-3" class="page">
+            <h2>Page 3: Résultats Attendus et Compétences Évaluées</h2>
             <div class="form-group">
-                <label for="resultat-attendu">Résultat attendu :</label>
+                <label for="resultat-attendu">Résultat Attendu (pour la tâche sélectionnée) :</label>
                 <select id="resultat-attendu">
                     <option value="">Sélectionner un résultat attendu</option>
                     </select>
             </div>
             <div class="form-group">
-                <label for="ressources-on-donne">Ressources (fournies) :</label>
-                <select id="ressources-on-donne">
-                    <option value="">Sélectionner une ressource (optionnel)</option>
-                    </select>
-            </div>
-            <div class="navigation-buttons">
-                <button id="prev-1" class="btn">Précédent</button>
-                <button id="next-3" class="btn">Suivant</button>
-            </div>
-        </div>
-
-        <div id="page-3" class="page">
-            <h2>Page 3: Compétence Évaluée</h2>
-            <div class="form-group">
-                <label for="competence">Compétence principale :</label>
-                <select id="competence">
+                <label for="competence-associee">Compétence Associée (à la tâche sélectionnée) :</label>
+                <select id="competence-associee">
                     <option value="">Sélectionner une compétence</option>
                     </select>
             </div>
             <div class="form-group">
-                <label>Être capable de faire :</label>
-                <div id="etre-capable-de-faire" class="info-display">
-                    <p>Sélectionnez une compétence pour voir les détails.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Conditions et ressources :</label>
-                <div id="conditions-ressources" class="info-display">
-                    <p>Sélectionnez une compétence pour voir les détails.</p>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Critères d'évaluation :</label>
-                <div id="criteres-evaluation" class="info-display">
-                    <p>Sélectionnez une compétence pour voir les détails.</p>
-                </div>
+                <label for="etre-capable">Être capable de (détails de la compétence) :</label>
+                <select id="etre-capable">
+                    <option value="">Sélectionner ce qu'il faut être capable de faire</option>
+                    </select>
             </div>
             <div class="navigation-buttons">
-                <button id="prev-2" class="btn">Précédent</button>
-                <button id="next-4" class="btn">Suivant</button>
+                <button id="prev-3" class="btn">Précédent</button>
+                <button id="next-3" class="btn">Suivant</button>
             </div>
         </div>
 
         <div id="page-4" class="page">
-            <h2>Page 4: Éléments d'Évaluation Supplémentaires</h2>
+            <h2>Page 4: Conditions, Ressources et Critères d'Évaluation</h2>
             <div class="form-group">
-                <label for="ressources-ajoutees">Ressources ajoutées (spécifiques à cette évaluation, une par ligne) :</label>
+                <label for="conditions-ressources">Conditions et Ressources (liées à la compétence) :</label>
+                <textarea id="conditions-ressources" rows="4" readonly placeholder="Les conditions et ressources pour la compétence sélectionnée apparaîtront ici."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="criteres-evaluation">Critères d'Évaluation (liés à la compétence) :</label>
+                <textarea id="criteres-evaluation" rows="4" readonly placeholder="Les critères d'évaluation pour la compétence sélectionnée apparaîtront ici."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ressources-donnees">Ressources Données (sélectionnez une ressource principale) :</label>
+                <select id="ressources-donnees">
+                    <option value="">Sélectionner une ressource</option>
+                    </select>
+            </div>
+            <div class="navigation-buttons">
+                <button id="prev-4" class="btn">Précédent</button>
+                <button id="next-4" class="btn">Suivant</button>
+            </div>
+        </div>
+
+        <div id="page-5" class="page">
+            <h2>Page 5: Informations Complémentaires et Export</h2>
+            <div class="form-group">
+                <label for="ressources-ajoutees">Ressources ajoutées (optionnel, une par ligne) :</label>
                 <textarea id="ressources-ajoutees" rows="4" placeholder="Ajoutez des ressources supplémentaires spécifiques à cette évaluation, une par ligne."></textarea>
             </div>
             <div class="form-group">
@@ -125,7 +126,8 @@
                 <textarea id="bareme-notation" rows="4" placeholder="Décrivez le barème de notation pour cette évaluation."></textarea>
             </div>
             <div class="navigation-buttons">
-                <button id="prev-3" class="btn">Précédent</button> <button id="export-enseignant" class="btn">Exporter (Enseignant)</button>
+                <button id="prev-5" class="btn">Précédent</button>
+                <button id="export-enseignant" class="btn">Exporter (Enseignant)</button>
                 <button id="export-eleve" class="btn">Exporter (Élève)</button>
                 <button id="effacer" class="btn btn-danger">Effacer</button>
             </div>
