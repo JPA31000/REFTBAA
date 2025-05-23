@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conception de Situations d'Évaluation - Formulaire</title>
+    <title>Conception de Séances - Formulaire</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="container">
-        <h1>Conception de Situations d'Évaluation</h1>
+        <h1>Conception de Séances</h1>
 
         <div id="page-1" class="page active">
             <h2>Page 1: Informations Générales de la Situation</h2>
+            <div class="form-group">
+                <label for="phase-seance">Phase de la séance :</label>
+                <select id="phase-seance">
+                    <option value="">Sélectionner une phase</option>
+                    <option value="Découverte">Découverte</option>
+                    <option value="Acquisition">Acquisition</option>
+                    <option value="Application">Application</option>
+                    <option value="Évaluation">Évaluation</option>
+                    <option value="Régulation">Régulation</option>
+                </select>
+            </div>
             <div class="form-group">
                 <label for="intitule-activite">Intitulé de l'Activité / Situation :</label>
                 <input type="text" id="intitule-activite" placeholder="Ex: Gérer un projet de construction en phase étude">
@@ -56,7 +67,9 @@
             <h2>Page 3: Résultats Attendus et Compétences Évaluées</h2>
             <div class="form-group">
                 <label for="resultat-attendu">Résultat Attendu (pour la tâche sélectionnée) :</label>
-                <textarea id="resultat-attendu" rows="4" readonly placeholder="Le résultat attendu pour la tâche sélectionnée apparaîtra ici."></textarea>
+                <select id="resultat-attendu">
+                    <option value="">Sélectionner un résultat attendu</option>
+                    </select>
             </div>
             <div class="form-group">
                 <label for="competence-associee">Compétence Associée (à la tâche sélectionnée) :</label>
@@ -66,7 +79,9 @@
             </div>
             <div class="form-group">
                 <label for="etre-capable">Être capable de (détails de la compétence) :</label>
-                <textarea id="etre-capable" rows="4" readonly placeholder="Les détails de la compétence sélectionnée apparaîtront ici."></textarea>
+                <select id="etre-capable">
+                    <option value="">Sélectionner ce qu'il faut être capable de faire</option>
+                    </select>
             </div>
             <div class="navigation-buttons">
                 <button id="prev-3" class="btn">Précédent</button>

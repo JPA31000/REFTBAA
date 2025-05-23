@@ -21,12 +21,12 @@ async function loadData() {
             competencesParTacheResponse,
             competenceDetailsResponse,
             ressourcesOnDonneResponse
-        ] = await Promise.allSettled([ // Utilisation de Promise.allSettled pour ne pas arrêter si une promesse échoue
+        ] = await Promise.allSettled([
             fetch('A PAT.json'),
-            fetch('A1 RA.json'),
+            fetch('A1 RA.json'), // Notons que A1 RA.json sera utilisé pour les options de select maintenant
             fetch('A2 PBTIQ.json'),
             fetch('B TP.json'),
-            fetch('D Comp_etrCap_Ress_Eval.json'),
+            fetch('D Comp_etrCap_Ress_Eval.json'), // Notons que D Comp_etrCap_Ress_Eval.json sera utilisé pour les options de select maintenant
             fetch('C On_donne.json')
         ]);
 
@@ -73,7 +73,6 @@ async function loadData() {
             console.error('Erreur de chargement de C On_donne.json:', ressourcesOnDonneResponse.reason);
         }
 
-        // Une fois toutes les données (ou la majorité) chargées, initialiser l'application
         initApp();
 
     } catch (error) {
@@ -88,17 +87,18 @@ async function loadData() {
 function initApp() {
     // --- Références aux éléments du DOM ---
     const pages = document.querySelectorAll('.page');
+    const phaseSeanceSelect = document.getElementById('phase-seance'); // Nouveau sélecteur
+    const intituleActiviteInput = document.getElementById('intitule-activite');
+    const contexteProfessionnelTextarea = document.getElementById('contexte-professionnel');
     const activiteProSelect = document.getElementById('activite-pro');
     const tacheSelect = document.getElementById('tache-associee');
     const problematiqueSelect = document.getElementById('problematique');
-    const resultatAttenduTextarea = document.getElementById('resultat-attendu');
+    const resultatAttenduSelect = document.getElementById('resultat-attendu'); // Changement ici: était textarea
     const competenceSelect = document.getElementById('competence-associee');
-    const etreCapableTextarea = document.getElementById('etre-capable');
+    const etreCapableSelect = document.getElementById('etre-capable'); // Changement ici: était textarea
     const conditionsRessourcesTextarea = document.getElementById('conditions-ressources');
     const criteresEvaluationTextarea = document.getElementById('criteres-evaluation');
     const ressourcesDonneesSelect = document.getElementById('ressources-donnees');
-    const intituleActiviteInput = document.getElementById('intitule-activite');
-    const contexteProfessionnelTextarea = document.getElementById('contexte-professionnel');
     const ressourcesAjouteesTextarea = document.getElementById('ressources-ajoutees');
     const criteresSpecifiquesTextarea = document.getElementById('criteres-specifiques');
     const baremeNotationTextarea = document.getElementById('bareme-notation');
@@ -148,7 +148,7 @@ function initApp() {
         });
     }
 
-    // Remplir les ressources données (Page 5)
+    // Remplir les ressources données (Page 4)
     if (ressourcesOnDonneData && ressourcesOnDonneData.ressourcesOnDonne) {
         ressourcesOnDonneData.ressourcesOnDonne.forEach(ressource => {
             const option = document.createElement('option');
@@ -158,77 +158,111 @@ function initApp() {
         });
     }
 
-    // Événement pour charger les tâches associées à l'activité professionnelle sélectionnée
+    // Événement pour charger les tâches associées, problématiques et réinitialiser les champs dépendants
     activiteProSelect.addEventListener('change', () => {
         const selectedActivite = activiteProSelect.value;
-        tacheSelect.innerHTML = '<option value="">Sélectionner une tâche</option>'; // Réinitialiser
-        problematiqueSelect.innerHTML = '<option value="">Sélectionner une problématique</option>'; // Réinitialiser
-        resultatAttenduTextarea.value = ''; // Effacer le résultat attendu
-        competenceSelect.innerHTML = '<option value="">Sélectionner une compétence</option>'; // Réinitialiser compétences
-        etreCapableTextarea.value = ''; // Effacer être capable
-        conditionsRessourcesTextarea.value = ''; // Effacer conditions ressources
-        criteresEvaluationTextarea.value = ''; // Effacer critères évaluation
 
+        // Réinitialiser les menus déroulants et champs de texte qui dépendent de l'activité
+        tacheSelect.innerHTML = '<option value="">Sélectionner une tâche</option>';
+        problematiqueSelect.innerHTML = '<option value="">Sélectionner une problématique</option>';
+        resultatAttenduSelect.innerHTML = '<option value="">Sélectionner un résultat attendu</option>'; // Réinitialiser le SELECT
+        competenceSelect.innerHTML = '<option value="">Sélectionner une compétence</option>';
+        etreCapableSelect.innerHTML = '<option value="">Sélectionner ce qu\'il faut être capable de faire</option>'; // Réinitialiser le SELECT
+        conditionsRessourcesTextarea.value = '';
+        criteresEvaluationTextarea.value = '';
 
-        if (selectedActivite && activitesTachesData.tachesParActivite && activitesTachesData.tachesParActivite[selectedActivite]) {
-            activitesTachesData.tachesParActivite[selectedActivite].forEach(tache => {
-                const option = document.createElement('option');
-                option.value = tache;
-                option.textContent = tache;
-                tacheSelect.appendChild(option);
-            });
-        }
+        if (selectedActivite) {
+            // Remplir les tâches associées à l'activité professionnelle
+            if (activitesTachesData.tachesParActivite && activitesTachesData.tachesParActivite[selectedActivite]) {
+                activitesTachesData.tachesParActivite[selectedActivite].forEach(tache => {
+                    const option = document.createElement('option');
+                    option.value = tache;
+                    option.textContent = tache;
+                    tacheSelect.appendChild(option);
+                });
+            }
 
-        // Remplir les problématiques associées à l'activité professionnelle
-        if (selectedActivite && problematiquesData.problematiquesParActivite && problematiquesData.problematiquesParActivite[selectedActivite]) {
-            problematiquesData.problematiquesParActivite[selectedActivite].forEach(problematique => {
-                const option = document.createElement('option');
-                option.value = problematique;
-                option.textContent = problematique;
-                problematiqueSelect.appendChild(option);
-            });
+            // Remplir les problématiques associées à l'activité professionnelle
+            if (problematiquesData.problematiquesParActivite && problematiquesData.problematiquesParActivite[selectedActivite]) {
+                problematiquesData.problematiquesParActivite[selectedActivite].forEach(problematique => {
+                    const option = document.createElement('option');
+                    option.value = problematique;
+                    option.textContent = problematique;
+                    problematiqueSelect.appendChild(option);
+                });
+            }
         }
     });
 
     // Événement pour afficher le résultat attendu et les compétences pour la tâche sélectionnée
     tacheSelect.addEventListener('change', () => {
         const selectedTache = tacheSelect.value;
-        resultatAttenduTextarea.value = ''; // Effacer le résultat attendu
-        competenceSelect.innerHTML = '<option value="">Sélectionner une compétence</option>'; // Réinitialiser compétences
-        etreCapableTextarea.value = ''; // Effacer être capable
-        conditionsRessourcesTextarea.value = ''; // Effacer conditions ressources
-        criteresEvaluationTextarea.value = ''; // Effacer critères évaluation
 
-        // Afficher le résultat attendu pour la tâche
-        if (selectedTache && resultatsAttendusData.resultatsAttendusParTache && resultatsAttendusData.resultatsAttendusParTache[selectedTache]) {
-            resultatAttenduTextarea.value = resultatsAttendusData.resultatsAttendusParTache[selectedTache];
-        }
+        // Réinitialiser les menus déroulants et champs de texte qui dépendent de la tâche
+        resultatAttenduSelect.innerHTML = '<option value="">Sélectionner un résultat attendu</option>'; // Réinitialiser le SELECT
+        competenceSelect.innerHTML = '<option value="">Sélectionner une compétence</option>';
+        etreCapableSelect.innerHTML = '<option value="">Sélectionner ce qu\'il faut être capable de faire</option>'; // Réinitialiser le SELECT
+        conditionsRessourcesTextarea.value = '';
+        criteresEvaluationTextarea.value = '';
 
-        // Remplir les compétences associées à la tâche
-        if (selectedTache && competencesParTacheData.competencesParTache && competencesParTacheData.competencesParTache[selectedTache]) {
-            competencesParTacheData.competencesParTache[selectedTache].forEach(competence => {
-                const option = document.createElement('option');
-                option.value = competence;
-                option.textContent = competence;
-                competenceSelect.appendChild(option);
-            });
+        if (selectedTache) {
+            // Remplir le SELECT des résultats attendus pour la tâche
+            // resultatsAttendusData.resultatsAttendusParTache est un objet, nous devons le transformer en options
+            if (resultatsAttendusData.resultatsAttendusParTache) {
+                 // Rechercher le résultat attendu spécifique à la tâche si l'entrée existe
+                 const specificResult = resultatsAttendusData.resultatsAttendusParTache[selectedTache];
+                 if (specificResult) {
+                     const option = document.createElement('option');
+                     option.value = specificResult;
+                     option.textContent = specificResult;
+                     resultatAttenduSelect.appendChild(option);
+                     resultatAttenduSelect.value = specificResult; // Sélectionne directement si unique
+                 } else {
+                     // Si pas de résultat spécifique, ajouter toutes les options comme avant (ou laisser vide)
+                     // Ici, nous supposons que chaque tâche a un unique résultat attendu.
+                     // Si tu veux toutes les options, il faudrait boucler sur Object.values(resultatsAttendusData.resultatsAttendusParTache)
+                     // Pour l'instant, on se base sur l'idée que le champ sera rempli par le résultat lié à la tâche.
+                     // Le JS précédent mettait juste la valeur, maintenant on crée une option.
+                 }
+            }
+
+
+            // Remplir les compétences associées à la tâche
+            if (competencesParTacheData.competencesParTache && competencesParTacheData.competencesParTache[selectedTache]) {
+                competencesParTacheData.competencesParTache[selectedTache].forEach(competence => {
+                    const option = document.createElement('option');
+                    option.value = competence;
+                    option.textContent = competence;
+                    competenceSelect.appendChild(option);
+                });
+            }
         }
     });
 
     // Événement pour afficher les détails de la compétence sélectionnée
     competenceSelect.addEventListener('change', () => {
         const selectedCompetence = competenceSelect.value;
-        etreCapableTextarea.value = '';
+        etreCapableSelect.innerHTML = '<option value="">Sélectionner ce qu\'il faut être capable de faire</option>'; // Réinitialiser le SELECT
         conditionsRessourcesTextarea.value = '';
         criteresEvaluationTextarea.value = '';
 
         if (selectedCompetence && competenceDetailsData.competenceDetails && competenceDetailsData.competenceDetails[selectedCompetence]) {
             const details = competenceDetailsData.competenceDetails[selectedCompetence];
-            etreCapableTextarea.value = details.etreCapable || '';
+
+            // Remplir le SELECT "Etre capable de"
+            if (details.etreCapable) {
+                const option = document.createElement('option');
+                option.value = details.etreCapable;
+                option.textContent = details.etreCapable;
+                etreCapableSelect.appendChild(option);
+                etreCapableSelect.value = details.etreCapable; // Sélectionne directement si unique
+            }
+
             conditionsRessourcesTextarea.value = details.conditionsRessources || '';
             criteresEvaluationTextarea.value = details.criteresEvaluation || '';
         }
     });
+
 
     /**
      * Génère le contenu d'exportation pour l'enseignant ou l'élève.
@@ -236,14 +270,15 @@ function initApp() {
      * @returns {string} Le texte formaté pour l'export.
      */
     function generateExportContent(type) {
+        const phaseSeance = phaseSeanceSelect.value.trim(); // Nouvelle variable
         const intituleActivite = intituleActiviteInput.value.trim();
         const contexteProfessionnel = contexteProfessionnelTextarea.value.trim();
         const activitePro = activiteProSelect.value.trim();
         const tacheAssociee = tacheSelect.value.trim();
         const problematique = problematiqueSelect.value.trim();
-        const resultatAttendu = resultatAttenduTextarea.value.trim();
+        const resultatAttendu = resultatAttenduSelect.value.trim(); // Changement ici: lecture du SELECT
         const competenceAssociee = competenceSelect.value.trim();
-        const etreCapable = etreCapableTextarea.value.trim();
+        const etreCapable = etreCapableSelect.value.trim(); // Changement ici: lecture du SELECT
         const conditionsRessources = conditionsRessourcesTextarea.value.trim();
         const criteresEvaluation = criteresEvaluationTextarea.value.trim();
         const ressourcesDonnees = ressourcesDonneesSelect.value.trim();
@@ -251,22 +286,24 @@ function initApp() {
         const criteresSpecifiques = criteresSpecifiquesTextarea.value.trim().split('\n').filter(line => line.trim() !== '').map(line => `- ${line.trim()}`).join('\n');
         const baremeNotation = baremeNotationTextarea.value.trim();
 
-        let output = `## Situation d'Évaluation : ${intituleActivite || 'Non renseigné'}\n\n`;
+        // Le titre principal est maintenant la problématique
+        let output = `## Situation d'Évaluation : ${problematique || 'Problématique non renseignée'}\n\n`;
 
         if (type === 'enseignant') {
             output += `### Informations Générales\n`;
-            output += `**Intitulé de l'Activité :** ${intituleActivite || 'Non renseigné'}\n`;
+            output += `**Phase de la Séance :** ${phaseSeance || 'Non sélectionnée'}\n`; // Ajout de la phase
+            output += `**Intitulé de l'Activité / Situation :** ${intituleActivite || 'Non renseigné'}\n`;
             output += `**Contexte Professionnel :**\n${contexteProfessionnel || 'Non renseigné'}\n\n`;
 
             output += `### Détails de l'Activité\n`;
             output += `**Activité Professionnelle :** ${activitePro || 'Non sélectionnée'}\n`;
             output += `**Tâche Associée :** ${tacheAssociee || 'Non sélectionnée'}\n`;
-            output += `**Problématique :**\n${problematique || 'Non sélectionnée'}\n\n`;
+            output += `**Problématique :**\n${problematique || 'Non sélectionnée'}\n\n`; // La problématique est aussi détaillée ici
 
             output += `### Résultats et Compétences\n`;
-            output += `**Résultat Attendu :**\n${resultatAttendu || 'Non renseigné'}\n\n`;
+            output += `**Résultat Attendu :**\n${resultatAttendu || 'Non sélectionné'}\n\n`; // Mise à jour pour SELECT
             output += `**Compétence Associée :** ${competenceAssociee || 'Non sélectionnée'}\n`;
-            output += `**Être Capable de :**\n${etreCapable || 'Non renseigné'}\n\n`;
+            output += `**Être Capable de :**\n${etreCapable || 'Non sélectionné'}\n\n`; // Mise à jour pour SELECT
             output += `**Conditions et Ressources :**\n${conditionsRessources || 'Non renseigné'}\n\n`;
             output += `**Critères d'Évaluation Associés :**\n${criteresEvaluation || 'Non renseigné'}\n\n`;
 
@@ -292,11 +329,11 @@ function initApp() {
             output += `### Problématique à Résoudre\n`;
             output += `${problematique || 'Non sélectionnée'}\n\n`;
             output += `### Ce qui est Attendu de Vous (Résultat)\n`;
-            output += `${resultatAttendu || 'Non renseigné'}\n\n`;
+            output += `${resultatAttendu || 'Non sélectionné'}\n\n`; // Mise à jour pour SELECT
             output += `### Compétence Évaluée\n`;
             output += `${competenceAssociee || 'Non sélectionnée'}\n\n`;
             output += `### Ce que vous devez être capable de faire\n`;
-            output += `${etreCapable || 'Non renseigné'}\n\n`;
+            output += `${etreCapable || 'Non sélectionné'}\n\n`; // Mise à jour pour SELECT
 
             output += `### Ressources à votre disposition\n`;
             output += `- Ressource Principale : ${ressourcesDonnees || 'Non sélectionnée'}\n`;
@@ -315,7 +352,7 @@ function initApp() {
             } else if (!criteresSpecifiques) {
                  output += `Non renseigné.\n`;
             }
-            output += `\n`; // Ajoute une ligne vide pour une meilleure lisibilité
+            output += `\n`;
             output += `### Barème de Notation\n`;
             output += `${baremeNotation || 'Non renseigné'}\n`;
         }
@@ -327,7 +364,6 @@ function initApp() {
         enseignantOutputDiv.textContent = generateExportContent('enseignant');
         eleveOutputDiv.textContent = ''; // S'assurer que l'autre est vide
         exportOutputSection.classList.add('active'); // Afficher la section d'export
-        // Faire défiler vers la section d'export
         exportOutputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
@@ -335,7 +371,6 @@ function initApp() {
         eleveOutputDiv.textContent = generateExportContent('eleve');
         enseignantOutputDiv.textContent = ''; // S'assurer que l'autre est vide
         exportOutputSection.classList.add('active'); // Afficher la section d'export
-        // Faire défiler vers la section d'export
         exportOutputSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
 
@@ -344,14 +379,15 @@ function initApp() {
         effacerBtn.addEventListener('click', () => {
             if (confirm('Voulez-vous vraiment effacer toutes les données du formulaire ?')) {
                 // Réinitialiser tous les champs du formulaire
-                document.getElementById('intitule-activite').value = '';
-                document.getElementById('contexte-professionnel').value = '';
+                phaseSeanceSelect.value = ''; // Réinitialiser le nouveau champ
+                intituleActiviteInput.value = '';
+                contexteProfessionnelTextarea.value = '';
                 activiteProSelect.value = '';
                 tacheSelect.innerHTML = '<option value="">Sélectionner une tâche</option>';
                 problematiqueSelect.innerHTML = '<option value="">Sélectionner une problématique</option>';
-                resultatAttenduTextarea.value = '';
+                resultatAttenduSelect.innerHTML = '<option value="">Sélectionner un résultat attendu</option>'; // Réinitialiser le SELECT
                 competenceSelect.innerHTML = '<option value="">Sélectionner une compétence</option>';
-                etreCapableTextarea.value = '';
+                etreCapableSelect.innerHTML = '<option value="">Sélectionner ce qu\'il faut être capable de faire</option>'; // Réinitialiser le SELECT
                 conditionsRessourcesTextarea.value = '';
                 criteresEvaluationTextarea.value = '';
                 ressourcesDonneesSelect.value = '';
