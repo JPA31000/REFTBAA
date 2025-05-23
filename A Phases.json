@@ -1,0 +1,115 @@
+{
+  "phases": [
+    {
+      "nom": "Phase 1 : L’avant-projet",
+      "activites": [
+        {
+          "nom": "Activité 1.1 – L’esquisse, les études préliminaires et le diagnostic",
+          "taches": [
+            "Effectuer un relevé d’ouvrage",
+            "Rédiger des éléments d’une notice descriptive de l’existant",
+            "Mettre au net et compléter des documents graphiques d’esquisses",
+            "Réaliser une maquette sommaire et des dessins de rendu",
+            "Effectuer les calculs de surfaces"
+          ],
+          "niveau": 3
+        },
+        {
+          "nom": "Activité 1.2 – L’avant-projet sommaire",
+          "taches": [
+            "Rechercher et classer la documentation spécifique au projet",
+            "Produire des documents graphiques d’APS en 2D et 3D",
+            "Rédiger une notice descriptive des choix architecturaux",
+            "Vérifier et confirmer les calculs de surfaces"
+          ],
+          "niveau": 2
+        },
+        {
+          "nom": "Activité 1.3 – L’avant-projet définitif",
+          "taches": [
+            "Analyser la compatibilité entre choix architecturaux et techniques",
+            "Produire des documents graphiques architecturaux",
+            "Transcrire les détails techniques et constructifs",
+            "Établir un quantitatif et une estimation au ratio"
+          ],
+          "niveau": 3
+        },
+        {
+          "nom": "Activité 1.4 – Les autorisations de construire",
+          "taches": [
+            "Établir les documents graphiques des dossiers d’autorisations spécifiques (permis de démolir, de construire…)",
+            "Renseigner les documents administratifs",
+            "Constituer les dossiers d’autorisations spécifiques"
+          ],
+          "niveau": 2
+        }
+      ]
+    },
+    {
+      "nom": "Phase 2 : Le projet",
+      "activites": [
+        {
+          "nom": "Activité 2.1 – Les études de projet",
+          "taches": [
+            "Établir le planning des études",
+            "Coordonner les études techniques",
+            "Intégrer les éléments techniques dans le projet architectural",
+            "Synthétiser les études techniques",
+            "Finaliser les documents de projet (plans, coupes, façades)",
+            "Établir les détails techniques et constructifs",
+            "Calculer et vérifier les surfaces et les volumes",
+            "Établir un quantitatif et une estimation des travaux (budget)"
+          ],
+          "niveau": 3
+        },
+        {
+          "nom": "Activité 2.2 – L’assistance au maître d’ouvrage pour la passation des contrats de travaux",
+          "taches": [
+            "Collecter et classer les pièces composant le DCE",
+            "Vérifier la cohérence des pièces du DCE",
+            "Assurer le suivi de la consultation",
+            "Analyser comparativement les offres des entreprises",
+            "Ajuster et finaliser le projet pour la constitution du dossier de marché"
+          ],
+          "niveau": 3
+        }
+      ]
+    },
+    {
+      "nom": "Phase 3 : La réalisation",
+      "activites": [
+        {
+          "nom": "Activité 3.1 – Les plans d’exécution préalables au démarrage des travaux",
+          "taches": [
+            "Collecter les documents des entreprises, des bureaux d’études et de contrôle",
+            "Traduire graphiquement des choix techniques retenus",
+            "Produire des documents graphiques (plans de détails complémentaires…)"
+          ],
+          "niveau": 3
+        },
+        {
+          "nom": "Activité 3.2 – La direction de l’exécution des marchés de travaux",
+          "taches": [
+            "Mettre à jour le dossier d’exécution de l’ouvrage",
+            "Pointer l’avancement des travaux et actualiser le calendrier de travaux",
+            "Assister aux réunions de chantier et rendre compte",
+            "Effectuer le relevé des ouvrages exécutés",
+            "Établir des documents modificatifs",
+            "Collecter les pièces nécessaires au règlement des situations de travaux"
+          ],
+          "niveau": 3
+        },
+        {
+          "nom": "Activité 3.3 – La réception et la livraison des ouvrages",
+          "taches": [
+            "Préparer les opérations préalables à la réception des travaux",
+            "Contrôler les travaux conduisant aux levées de réserves et rendre compte",
+            "Finaliser le DOE",
+            "Assurer le suivi du parfait achèvement de l’ouvrage"
+          ],
+          "niveau": 2
+        }
+      ]
+    }
+  ]
+}
