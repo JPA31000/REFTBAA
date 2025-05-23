@@ -1,53 +1,176 @@
-/* style.css */
+:root {
+    --primary-color: #4CAF50; /* Green */
+    --secondary-color: #f0f0f0; /* Light Grey */
+    --text-color: #333;
+    --border-color: #ddd;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-color: #45a049;
+    --active-checkbox-color: #4CAF50;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --disabled-bg: #e9ecef; /* Lighter background for disabled fields */
+    --disabled-text: #6c757d; /* Greyer text for disabled fields */
+}
 
-/* Général */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-family);
     margin: 0;
     padding: 20px;
-    background-color: #e9ecef; /* Arrière-plan doux */
+    background-color: #eef1f5;
+    color: var(--text-color);
     line-height: 1.6;
-    color: #343a40; /* Couleur de texte sombre */
-    display: flex; /* Utilisation de flexbox pour centrer le conteneur */
-    justify-content: center;
-    align-items: flex-start; /* Aligner en haut pour un meilleur défilement */
-    min-height: 100vh; /* Prend toute la hauteur de la fenêtre */
 }
 
 .container {
-    width: 90%;
-    max-width: 900px; /* Limite la largeur maximale pour les grands écrans */
-    background-color: #fff; /* Fond blanc pour le formulaire */
-    padding: 30px;
-    border-radius: 8px; /* Bords légèrement arrondis */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Ombre douce */
-    margin-top: 20px; /* Ajoute une petite marge en haut */
+    max-width: 1000px;
+    margin: 20px auto;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px var(--shadow-color);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 90vh;
 }
 
-h1 {
-    color: #0056b3; /* Bleu foncé pour le titre principal */
+header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 25px 30px;
+    border-bottom: 5px solid var(--hover-color);
     text-align: center;
-    margin-bottom: 30px;
-    font-size: 2.2em;
-    border-bottom: 2px solid #dee2e6; /* Ligne de séparation sous le titre */
-    padding-bottom: 15px;
+    border-radius: 12px 12px 0 0;
 }
 
-h2 {
-    color: #007bff; /* Bleu plus clair pour les titres de section/page */
+header h1 {
     margin-top: 0;
-    margin-bottom: 25px;
-    text-align: center;
-    font-size: 1.8em;
+    margin-bottom: 20px;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.header-inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 25px;
+}
+
+.input-group {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: white; /* Changed to white for header labels */
+    font-size: 0.95em;
+}
+
+main .input-group label { /* Specific for main content to be text-color */
+    color: var(--text-color);
+}
+
+
+.input-group input[type="text"],
+.input-group select,
+.input-group textarea {
+    width: calc(100% - 20px);
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    background-color: #f9f9f9;
+    color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+.input-group input[type="text"]:focus,
+.input-group select:focus,
+.input-group textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.2);
+    outline: none;
+    background-color: #fff;
+}
+
+.input-group select:disabled,
+.input-group textarea[readonly] {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text);
+    cursor: not-allowed;
+}
+
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.type-seance .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.type-seance label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+    color: white;
+    font-size: 1em;
+}
+
+/* Custom checkbox styling */
+.type-seance input[type="checkbox"] {
+    display: none; /* Hide default checkbox */
+}
+
+.type-seance .custom-checkbox {
+    width: 22px;
+    height: 22px;
+    border: 2px solid white;
+    border-radius: 4px; /* Slightly rounded corners for square look */
+    margin-right: 10px;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    flex-shrink: 0;
+}
+
+.type-seance input[type="checkbox"]:checked + .custom-checkbox {
+    background-color: var(--active-checkbox-color);
+    border-color: var(--active-checkbox-color);
+}
+
+.type-seance input[type="checkbox"]:checked + .custom-checkbox::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 7px;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+main {
+    padding: 30px;
+    flex-grow: 1;
 }
 
 .page {
-    display: none; /* Caché par défaut, affiché par JavaScript */
-    animation: fadeIn 0.5s ease-in-out; /* Animation de fondu */
+    display: none;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-.page.active {
-    display: block; /* Affiche la page active */
+.page.active-page {
+    display: block;
 }
 
 @keyframes fadeIn {
@@ -55,184 +178,180 @@ h2 {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Groupes de formulaires */
-.form-group {
-    margin-bottom: 20px;
+h2 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8em;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 15px;
 }
 
-.form-group label {
-    display: block; /* Chaque label sur une nouvelle ligne */
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #495057; /* Couleur de texte pour les labels */
+.form-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+    margin-bottom: 30px;
 }
 
-.form-group input[type="text"],
-.form-group textarea,
-.form-group select {
-    width: calc(100% - 22px); /* Pleine largeur moins le padding et la bordure */
-    padding: 12px 10px;
-    border: 1px solid #ced4da; /* Bordure standard */
-    border-radius: 5px;
-    font-size: 1em;
-    color: #495057;
-    background-color: #f8f9fa; /* Léger fond pour les champs */
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+.checkbox-list-group {
+    grid-column: 1 / -1; /* Span across all columns */
 }
 
-.form-group input[type="text"]:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    border-color: #80bdff; /* Bordure bleue au focus */
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Ombre au focus */
-    outline: none; /* Supprime l'outline par défaut du navigateur */
+.checkbox-list {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 15px;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fcfcfc;
 }
 
-.form-group textarea {
-    resize: vertical; /* Permet de redimensionner verticalement */
-    min-height: 80px; /* Hauteur minimale */
+.checkbox-list label {
+    display: flex; /* Use flex to align checkbox and text */
+    align-items: flex-start; /* Align text to the top if it wraps */
+    margin-bottom: 10px;
+    cursor: pointer;
+    color: var(--text-color);
+    font-weight: normal;
+    font-size: 0.95em;
+    padding: 5px 0;
+    transition: background-color 0.2s ease;
 }
 
-.form-group select {
-    appearance: none; /* Supprime le style par défaut des selects sur certains navigateurs */
-    -webkit-appearance: none;
-    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007bff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.6-6.4H18.5a17.6%2017.6%200%200%200-13.6%206.4c-4.5%204.6-4.5%2012%200%2016.6l131.9%20132c4.5%204.6%2011.9%204.6%2016.4%200l131.9-132c4.5-4.6%204.5-12.1%200-16.7z%22%2F%3E%3C%2Fsvg%3E');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 12px;
-    padding-right: 30px; /* Pour éviter que le texte ne se chevauche avec l'icône */
+.checkbox-list label:hover {
+    background-color: #eef1f5;
+    border-radius: 4px;
 }
 
+.checkbox-list input[type="checkbox"] {
+    margin-right: 10px;
+    accent-color: var(--primary-color); /* Style checkbox directly */
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+    margin-top: 2px; /* Small adjustment for vertical alignment */
+}
 
-/* Boutons de navigation */
-.navigation-buttons {
+footer {
+    background-color: var(--secondary-color);
+    padding: 20px 30px;
     display: flex;
     justify-content: space-between;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid #dee2e6; /* Ligne de séparation */
+    align-items: center;
+    border-top: 1px solid var(--border-color);
+    border-radius: 0 0 12px 12px;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Space between button groups */
 }
 
-.btn {
-    padding: 10px 20px;
-    font-size: 1.1em;
+.page-navigation, .action-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-button, .action-button {
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    flex-grow: 1; /* Permet aux boutons de prendre de l'espace */
-    margin: 0 5px; /* Petite marge entre les boutons */
-}
-
-.btn:first-child {
-    margin-left: 0;
-}
-
-.btn:last-child {
-    margin-right: 0;
-}
-
-.btn:hover {
-    transform: translateY(-2px); /* Léger effet de soulèvement au survol */
-}
-
-/* Styles spécifiques pour les boutons */
-#next-1, #next-2, #next-3, #next-4 {
-    background-color: #007bff; /* Bleu primaire */
-    color: white;
-}
-
-#next-1:hover, #next-2:hover, #next-3:hover, #next-4:hover {
-    background-color: #0056b3; /* Bleu plus foncé au survol */
-}
-
-#prev-2, #prev-3, #prev-4, #prev-5 {
-    background-color: #6c757d; /* Gris secondaire */
-    color: white;
-}
-
-#prev-2:hover, #prev-3:hover, #prev-4:hover, #prev-5:hover {
-    background-color: #545b62; /* Gris plus foncé au survol */
-}
-
-#export-enseignant, #export-eleve {
-    background-color: #28a745; /* Vert pour les exports */
-    color: white;
-}
-
-#export-enseignant:hover, #export-eleve:hover {
-    background-color: #218838; /* Vert plus foncé au survol */
-}
-
-.btn-danger {
-    background-color: #dc3545; /* Rouge pour le bouton effacer */
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c82333; /* Rouge plus foncé au survol */
-}
-
-
-/* Section d'affichage des exports */
-.export-output {
-    margin-top: 40px;
-    padding: 25px;
-    background-color: #eaf4ff; /* Fond bleu clair pour l'export */
-    border: 1px solid #a8d2ff; /* Bordure légèrement plus prononcée */
     border-radius: 8px;
-    display: none; /* Caché par défaut, affiché par JS après export */
+    cursor: pointer;
+    font-size: 1.05em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.export-output.active {
-    display: block;
+.nav-button {
+    background-color: var(--primary-color);
+    color: white;
 }
 
-.export-output h3 {
-    color: #0056b3;
-    text-align: center;
+.nav-button:hover:not(:disabled) {
+    background-color: var(--hover-color);
+    transform: translateY(-2px);
+}
+
+.nav-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.7; /* Indicate disabled state more clearly */
+}
+
+.action-buttons .action-button {
+    background-color: #007bff; /* Blue for action buttons */
+    color: white;
+}
+
+.action-buttons .action-button:hover:not(:disabled) {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.action-buttons .action-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+#newSessionBtn {
+    background-color: #dc3545; /* Red for reset */
+}
+
+#newSessionBtn:hover:not(:disabled) {
+    background-color: #c82333;
+}
+
+.preview-section {
+    background-color: #f9f9f9;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.preview-section h3 {
+    color: var(--primary-color);
+    margin-top: 0;
+    border-bottom: 1px dashed var(--border-color);
+    padding-bottom: 10px;
     margin-bottom: 20px;
-    font-size: 1.6em;
 }
 
-.export-output pre {
-    background-color: #f0f8ff; /* Encore plus clair pour le code */
-    border: 1px dashed #a2d2ff;
-    padding: 15px;
-    border-radius: 5px;
-    white-space: pre-wrap; /* Préserve les retours à la ligne et les espaces */
-    word-wrap: break-word; /* Casse les mots longs pour éviter les débordements */
-    font-family: 'Consolas', 'Monaco', monospace; /* Police de code plus lisible */
-    font-size: 0.95em;
-    color: #333;
-    margin-bottom: 20px;
-    line-height: 1.5; /* Meilleure lisibilité pour les lignes longues */
+.session-preview p {
+    margin-bottom: 8px;
+    color: #555;
 }
 
-/* Responsivité */
-@media screen and (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 20px;
+.session-preview strong {
+    color: var(--text-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .header-inputs {
+        flex-direction: column;
+        align-items: stretch;
     }
 
-    h1 {
-        font-size: 1.8em;
+    .input-group {
+        min-width: unset;
+        width: 100%;
     }
 
-    h2 {
-        font-size: 1.5em;
+    .form-section {
+        grid-template-columns: 1fr;
     }
 
-    .btn {
-        font-size: 1em;
-        padding: 8px 15px;
-        margin: 5px 0; /* Empile les boutons sur les petits écrans */
-        width: 100%; /* Les boutons prennent toute la largeur */
+    footer {
+        flex-direction: column;
+        gap: 20px;
     }
 
-    .navigation-buttons {
-        flex-direction: column; /* Les boutons s'empilent */
-        align-items: center; /* Centrer les boutons empilés */
+    .page-navigation, .action-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .action-buttons .action-button {
+        flex-grow: 1; /* Make buttons expand to fill space */
     }
 }

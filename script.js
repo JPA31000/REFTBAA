@@ -1,12 +1,15 @@
 // Data structures to hold loaded JSON data
-let phasesData = {};
-let aptData = {}; // A PAT.json for activities
-let problematicsData = {};
-let resultsData = {};
-let competencesData = {};
-let onDonneData = [];
+let phasesData = {}; // From A Phases.json
+let aptData = {};    // From A PAT.json (not directly used for cascading, but good to have)
+let problematicsData = {}; // From A2 PBTIQ.json
+let resultsData = {};      // From A1 RA.json
+let competencesData = {
+    competencesParTache: {}, // From B TP.json
+    competenceDetails: {}    // From D Comp_etrCap_Ress_Eval.json
+};
+let onDonneData = [];       // From C On_donne.json
 
-// DOM Elements
+// DOM Elements - Using const for elements that won't change
 const sequenceNameInput = document.getElementById('sequenceName');
 const sessionNameInput = document.getElementById('sessionName');
 const sessionTypeCheckboxes = document.querySelectorAll('input[name="sessionType"]');
@@ -31,50 +34,61 @@ const newSessionBtn = document.getElementById('newSessionBtn');
 const sessionPreview = document.getElementById('sessionPreview');
 
 let currentPage = 1;
-const totalPages = 4;
+const totalPages = 4; // Total number of pages
 
 // --- Data Loading Functions ---
 async function loadJSON(filename) {
     try {
-        const response = await fetch(`./data/${filename}`); // Assuming a 'data' folder
+        const response = await fetch(`./data/${filename}`);
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            console.error(`Erreur HTTP: ${response.status} pour le fichier ${filename}`);
+            throw new Error(`Erreur de chargement du fichier: ${filename}`);
         }
         return await response.json();
     } catch (error) {
-        console.error(`Could not load ${filename}:`, error);
+        console.error(`Impossible de charger ${filename}:`, error);
+        // Optionally display an error message to the user
+        alert(`Erreur: Impossible de charger les données pour ${filename}. Veuillez vérifier la console pour plus de détails.`);
         return null;
     }
 }
 
 async function loadAllData() {
-    // Load A Phases.json for detailed phase/activity/task structure
-    phasesData = await loadJSON('A Phases.json');
+    // Load all JSON files concurrently
+    const [
+        loadedPhasesData,
+        loadedAptData,
+        loadedProblematicsData,
+        loadedResultsData,
+        loadedBtpData,
+        loadedOnDonneData,
+        loadedCompDetailsData
+    ] = await Promise.all([
+        loadJSON('A Phases.json'),
+        loadJSON('A PAT.json'),
+        loadJSON('A2 PBTIQ.json'),
+        loadJSON('A1 RA.json'),
+        loadJSON('B TP.json'),
+        loadJSON('C On_donne.json'),
+        loadJSON('D Comp_etrCap_Ress_Eval.json')
+    ]);
 
-    // Load A PAT.json for phase-activity direct mapping
-    aptData = await loadJSON('A PAT.json');
+    phasesData = loadedPhasesData || {};
+    aptData = loadedAptData || {};
+    problematicsData = loadedProblematicsData || {};
+    resultsData = loadedResultsData || {};
+    competencesData.competencesParTache = (loadedBtpData && loadedBtpData.competencesParTache) || {};
+    onDonneData = (loadedOnDonneData && loadedOnDonneData.ressourcesOnDonne) || [];
+    competencesData.competenceDetails = (loadedCompDetailsData && loadedCompDetailsData.competenceDetails) || {};
 
-    // Load A2 PBTIQ.json for problematics by activity
-    problematicsData = await loadJSON('A2 PBTIQ.json');
-
-    // Load A1 RA.json for expected results by task
-    resultsData = await loadJSON('A1 RA.json');
-
-    // Load B TP.json for competences by task
-    competencesData.competencesParTache = (await loadJSON('B TP.json')).competencesParTache;
-
-    // Load D Comp_etrCap_Ress_Eval.json for detailed competence info
-    competencesData.competenceDetails = (await loadJSON('D Comp_etrCap_Ress_Eval.json')).competenceDetails;
-
-    // Load C On_donne.json for "on donne" resources
-    onDonneData = (await loadJSON('C On_donne.json')).ressourcesOnDonne;
-
+    // Initial population of the first dropdown and "on donne"
     populatePhases();
     populateOnDonne();
-    updateNavigationButtons();
+    updateNavigationButtons(); // Ensure button states are correct on load
 }
 
 // --- Population Functions ---
+
 function populatePhases() {
     phaseSelect.innerHTML = '<option value="">-- Sélectionner une Phase --</option>';
     if (phasesData && phasesData.phases) {
@@ -85,6 +99,7 @@ function populatePhases() {
             phaseSelect.appendChild(option);
         });
     }
+    // No need to call populateActivities here, it's triggered by phaseSelect change event
 }
 
 function populateActivities(selectedPhase) {
@@ -92,12 +107,12 @@ function populateActivities(selectedPhase) {
     activitySelect.disabled = true;
     taskSelect.innerHTML = '<option value="">-- Sélectionner une Tâche --</option>';
     taskSelect.disabled = true;
-    problematicsData.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
-    problematicsData.disabled = true;
+    problematicSelect.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
+    problematicSelect.disabled = true;
     expectedResultTextarea.value = '';
 
     const selectedPhaseObject = phasesData.phases.find(p => p.nom === selectedPhase);
-    if (selectedPhaseObject && selectedPhaseObject.activites) {
+    if (selectedPhaseObject && selectedPhaseObject.activites && selectedPhaseObject.activites.length > 0) {
         selectedPhaseObject.activites.forEach(activity => {
             const option = document.createElement('option');
             option.value = activity.nom;
@@ -106,23 +121,27 @@ function populateActivities(selectedPhase) {
         });
         activitySelect.disabled = false;
     }
+    // No need to call populateTasks here, it's triggered by activitySelect change event
 }
 
 function populateTasks(selectedActivity) {
     taskSelect.innerHTML = '<option value="">-- Sélectionner une Tâche --</option>';
     taskSelect.disabled = true;
-    problematicsData.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
-    problematicsData.disabled = true;
-    expectedResultTextarea.value = '';
+    problematicSelect.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
+    problematicSelect.disabled = true; // Ensure problematic is reset and disabled
+    expectedResultTextarea.value = ''; // Ensure expected result is reset
 
-    // Find the tasks related to the selected activity across all phases
     let tasks = [];
-    phasesData.phases.forEach(phase => {
-        const activityInPhase = phase.activites.find(act => act.nom === selectedActivity);
-        if (activityInPhase && activityInPhase.taches) {
-            tasks = activityInPhase.taches;
+    // Find the tasks related to the selected activity across all phases
+    if (phasesData && phasesData.phases) {
+        for (const phase of phasesData.phases) {
+            const activityInPhase = phase.activites.find(act => act.nom === selectedActivity);
+            if (activityInPhase && activityInPhase.taches) {
+                tasks = activityInPhase.taches;
+                break; // Found tasks for this activity, no need to continue searching
+            }
         }
-    });
+    }
 
     if (tasks.length > 0) {
         tasks.forEach(task => {
@@ -133,36 +152,38 @@ function populateTasks(selectedActivity) {
         });
         taskSelect.disabled = false;
     }
+    // Populate problematics directly from the selected activity, as per A2 PBTIQ.json
     populateProblematic(selectedActivity);
+    // No need to call populateCompetences here, it's triggered by taskSelect change event
 }
 
 function populateProblematic(selectedActivity) {
-    problematicsData.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
-    problematicsData.disabled = true;
+    problematicSelect.innerHTML = '<option value="">-- Sélectionner une Problématique --</option>';
+    problematicSelect.disabled = true;
 
-    const problematics = problematicsData.problematiquesParActivite[selectedActivity];
-    if (problematics) {
+    const problematics = problematicsData.problematiquesParActivite && problematicsData.problematiquesParActivite[selectedActivity];
+    if (problematics && problematics.length > 0) {
         problematics.forEach(pb => {
             const option = document.createElement('option');
             option.value = pb;
             option.textContent = pb;
-            problematicsData.appendChild(option);
+            problematicSelect.appendChild(option);
         });
-        problematicsData.disabled = false;
+        problematicSelect.disabled = false;
     }
 }
 
 function displayExpectedResult(selectedTask) {
-    expectedResultTextarea.value = resultsData.resultatsAttendusParTache[selectedTask] || "Aucun résultat attendu pour cette tâche.";
+    expectedResultTextarea.value = resultsData.resultatsAttendusParTache && resultsData.resultatsAttendusParTache[selectedTask] || "Aucun résultat attendu pour cette tâche.";
 }
 
 function populateCompetences(selectedTask) {
     competenceSelect.innerHTML = '<option value="">-- Sélectionner une Compétence --</option>';
     competenceSelect.disabled = true;
-    clearCompetenceDetails();
+    clearCompetenceDetails(); // Clear previous details
 
-    const competencesForTask = competencesData.competencesParTache[selectedTask];
-    if (competencesForTask) {
+    const competencesForTask = competencesData.competencesParTache && competencesData.competencesParTache[selectedTask];
+    if (competencesForTask && competencesForTask.length > 0) {
         competencesForTask.forEach(comp => {
             const option = document.createElement('option');
             option.value = comp;
@@ -175,30 +196,31 @@ function populateCompetences(selectedTask) {
 
 function populateCompetenceDetails(selectedCompetence) {
     clearCompetenceDetails();
-    const details = competencesData.competenceDetails[selectedCompetence];
+    const details = competencesData.competenceDetails && competencesData.competenceDetails[selectedCompetence];
 
     if (details) {
         // Être capable de
         if (details.etreCapable) {
-            details.etreCapable.split('. ').filter(s => s.trim() !== '').forEach((item, index) => {
+            // Split by ". " but also ensure each item is a complete sentence/phrase
+            details.etreCapable.split(/(?<=\.)\s*/).filter(s => s.trim() !== '').forEach(item => {
                 const label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}${index < details.etreCapable.split('. ').filter(s => s.trim() !== '').length - 1 ? '.' : ''}`;
+                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}`;
                 etreCapableList.appendChild(label);
             });
         }
         // Conditions/Ressources
         if (details.conditionsRessources) {
-            details.conditionsRessources.split('. ').filter(s => s.trim() !== '').forEach((item, index) => {
+            details.conditionsRessources.split(/(?<=\.)\s*/).filter(s => s.trim() !== '').forEach(item => {
                 const label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}${index < details.conditionsRessources.split('. ').filter(s => s.trim() !== '').length - 1 ? '.' : ''}`;
+                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}`;
                 conditionsRessourcesList.appendChild(label);
             });
         }
         // Critères d'Évaluation
         if (details.criteresEvaluation) {
-            details.criteresEvaluation.split('. ').filter(s => s.trim() !== '').forEach((item, index) => {
+            details.criteresEvaluation.split(/(?<=\.)\s*/).filter(s => s.trim() !== '').forEach(item => {
                 const label = document.createElement('label');
-                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}${index < details.criteresEvaluation.split('. ').filter(s => s.trim() !== '').length - 1 ? '.' : ''}`;
+                label.innerHTML = `<input type="checkbox" value="${item.trim()}">${item.trim()}`;
                 criteresEvaluationList.appendChild(label);
             });
         }
@@ -213,7 +235,7 @@ function clearCompetenceDetails() {
 
 function populateOnDonne() {
     onDonneList.innerHTML = '';
-    if (onDonneData) {
+    if (onDonneData && onDonneData.length > 0) {
         onDonneData.forEach(resource => {
             const label = document.createElement('label');
             label.innerHTML = `<input type="checkbox" value="${resource}">${resource}`;
@@ -237,10 +259,8 @@ function updateNavigationButtons() {
     prevBtn.disabled = currentPage === 1;
     nextBtn.disabled = currentPage === totalPages;
 
-    // Enable/disable PDF buttons only on the last page
-    const enablePdfButtons = currentPage === totalPages && problematicSelect.value !== '';
-    pdfProfBtn.disabled = !enablePdfButtons;
-    pdfEleveBtn.disabled = !enablePdfButtons;
+    // PDF buttons are only enabled on the last page AND if a problematic is selected
+    updatePdfButtonStates();
 }
 
 prevBtn.addEventListener('click', () => {
@@ -258,28 +278,33 @@ nextBtn.addEventListener('click', () => {
 // --- Event Listeners for Dynamic Content ---
 phaseSelect.addEventListener('change', (event) => {
     populateActivities(event.target.value);
+    updatePreview();
 });
 
 activitySelect.addEventListener('change', (event) => {
     populateTasks(event.target.value);
+    updatePreview();
 });
 
 taskSelect.addEventListener('change', (event) => {
     displayExpectedResult(event.target.value);
     populateCompetences(event.target.value);
+    updatePreview();
 });
 
-problematicsData.addEventListener('change', () => {
-    updatePdfButtonStates(); // Enable PDF buttons if problematic is selected
+problematicSelect.addEventListener('change', () => {
+    updatePdfButtonStates(); // Re-evaluate PDF button state
+    updatePreview();
 });
 
 competenceSelect.addEventListener('change', (event) => {
     populateCompetenceDetails(event.target.value);
+    updatePreview();
 });
 
+// Ensure only one session type checkbox is selected
 sessionTypeCheckboxes.forEach(checkbox => {
     checkbox.addEventListener('change', (event) => {
-        // Ensure only one checkbox can be selected for session type
         if (event.target.checked) {
             sessionTypeCheckboxes.forEach(cb => {
                 if (cb !== event.target) {
@@ -291,11 +316,16 @@ sessionTypeCheckboxes.forEach(checkbox => {
     });
 });
 
-// Update preview whenever an input changes
-document.querySelectorAll('input[type="text"], select, textarea, input[type="checkbox"]').forEach(element => {
-    element.addEventListener('change', updatePreview);
-    element.addEventListener('input', updatePreview); // For text inputs
-});
+// Update preview whenever main input fields change
+sequenceNameInput.addEventListener('input', updatePreview);
+sessionNameInput.addEventListener('input', updatePreview);
+// Add listeners for dynamic checkbox lists after they are populated
+// (Event delegation is generally better for dynamic content, but for simplicity here,
+// we'll rely on updatePreview being called after changes to these lists)
+etreCapableList.addEventListener('change', updatePreview);
+conditionsRessourcesList.addEventListener('change', updatePreview);
+criteresEvaluationList.addEventListener('change', updatePreview);
+onDonneList.addEventListener('change', updatePreview);
 
 
 // --- PDF Generation (using jsPDF) ---
@@ -331,10 +361,16 @@ function generatePdf(forProfessor) {
     let yPos = 20;
     const margin = 15;
     const lineHeight = 7;
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Set font for Unicode characters (important for accents) - optional, but improves compatibility
+    // doc.addFont("helvetica", "normal", "windows-1250"); // Example, may need a font file for full support
+    // doc.setFont("helvetica", "normal");
+
 
     // Title of the PDF (Problématique)
     doc.setFontSize(16);
-    doc.text(`Fiche de Séance: ${problematic}`, doc.internal.pageSize.getWidth() / 2, yPos, { align: 'center' });
+    doc.text(`Fiche de Séance: ${problematic}`, pageWidth / 2, yPos, { align: 'center' });
     yPos += 15;
 
     doc.setFontSize(12);
@@ -359,33 +395,45 @@ function generatePdf(forProfessor) {
     doc.text(`Problématique: ${problematic}`, margin, yPos);
     yPos += lineHeight;
 
+    // Expected Result (after "On donne" for student version, and just after Problematic for prof)
+    doc.setFontSize(12);
+    doc.text('Résultat Attendu:', margin, yPos);
+    yPos += lineHeight;
+    // Use text with auto-split for long texts
+    const splitExpectedResult = doc.splitTextToSize(expectedResult, pageWidth - 2 * margin);
+    doc.text(splitExpectedResult, margin, yPos);
+    yPos += (splitExpectedResult.length * lineHeight) + lineHeight;
+
+
     // Section "On donne" for both versions
     doc.setFontSize(12);
     doc.text('Ressources ("On donne"):', margin, yPos);
     yPos += lineHeight;
     if (selectedOnDonne.length > 0) {
         selectedOnDonne.forEach(resource => {
-            if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+            const splitResource = doc.splitTextToSize(`  • ${resource}`, pageWidth - 2 * margin - 5); // Indent for bullet
+            if (yPos + (splitResource.length * lineHeight) > doc.internal.pageSize.getHeight() - margin) {
                 doc.addPage();
                 yPos = margin;
             }
-            doc.text(`  • ${resource}`, margin + 5, yPos);
-            yPos += lineHeight;
+            doc.text(splitResource, margin + 5, yPos);
+            yPos += (splitResource.length * lineHeight);
         });
     } else {
+        if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+            doc.addPage();
+            yPos = margin;
+        }
         doc.text(`  • Aucune ressource sélectionnée.`, margin + 5, yPos);
         yPos += lineHeight;
     }
     yPos += lineHeight; // Add some space
 
-    // Expected Result (after "On donne" for student version)
-    doc.setFontSize(12);
-    doc.text('Résultat Attendu:', margin, yPos);
-    yPos += lineHeight;
-    doc.text(expectedResult, margin, yPos, { maxWidth: doc.internal.pageSize.getWidth() - 2 * margin });
-    yPos += doc.getTextDimensions(expectedResult, { maxWidth: doc.internal.pageSize.getWidth() - 2 * margin }).h + lineHeight;
-
     if (forProfessor) {
+        if (yPos + lineHeight * 3 > doc.internal.pageSize.getHeight() - margin) { // Check space for next section header
+            doc.addPage();
+            yPos = margin;
+        }
         doc.setFontSize(14);
         doc.text('Compétences Visées:', margin, yPos);
         yPos += lineHeight;
@@ -398,14 +446,19 @@ function generatePdf(forProfessor) {
         yPos += lineHeight;
         if (selectedEtreCapable.length > 0) {
             selectedEtreCapable.forEach(item => {
-                if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                const splitItem = doc.splitTextToSize(`  • ${item}`, pageWidth - 2 * margin - 5);
+                if (yPos + (splitItem.length * lineHeight) > doc.internal.pageSize.getHeight() - margin) {
                     doc.addPage();
                     yPos = margin;
                 }
-                doc.text(`  • ${item}`, margin + 5, yPos);
-                yPos += lineHeight;
+                doc.text(splitItem, margin + 5, yPos);
+                yPos += (splitItem.length * lineHeight);
             });
         } else {
+            if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                doc.addPage();
+                yPos = margin;
+            }
             doc.text(`  • Non spécifié`, margin + 5, yPos);
             yPos += lineHeight;
         }
@@ -416,14 +469,19 @@ function generatePdf(forProfessor) {
         yPos += lineHeight;
         if (selectedConditionsRessources.length > 0) {
             selectedConditionsRessources.forEach(item => {
-                if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                const splitItem = doc.splitTextToSize(`  • ${item}`, pageWidth - 2 * margin - 5);
+                if (yPos + (splitItem.length * lineHeight) > doc.internal.pageSize.getHeight() - margin) {
                     doc.addPage();
                     yPos = margin;
                 }
-                doc.text(`  • ${item}`, margin + 5, yPos);
-                yPos += lineHeight;
+                doc.text(splitItem, margin + 5, yPos);
+                yPos += (splitItem.length * lineHeight);
             });
         } else {
+            if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                doc.addPage();
+                yPos = margin;
+            }
             doc.text(`  • Non spécifié`, margin + 5, yPos);
             yPos += lineHeight;
         }
@@ -434,20 +492,25 @@ function generatePdf(forProfessor) {
         yPos += lineHeight;
         if (selectedCriteresEvaluation.length > 0) {
             selectedCriteresEvaluation.forEach(item => {
-                if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                const splitItem = doc.splitTextToSize(`  • ${item}`, pageWidth - 2 * margin - 5);
+                if (yPos + (splitItem.length * lineHeight) > doc.internal.pageSize.getHeight() - margin) {
                     doc.addPage();
                     yPos = margin;
                 }
-                doc.text(`  • ${item}`, margin + 5, yPos);
-                yPos += lineHeight;
+                doc.text(splitItem, margin + 5, yPos);
+                yPos += (splitItem.length * lineHeight);
             });
         } else {
+            if (yPos + lineHeight > doc.internal.pageSize.getHeight() - margin) {
+                doc.addPage();
+                yPos = margin;
+            }
             doc.text(`  • Non spécifié`, margin + 5, yPos);
             yPos += lineHeight;
         }
     }
 
-    doc.save(`${problematic}_${forProfessor ? 'Prof' : 'Eleve'}.pdf`);
+    doc.save(`${problematic.replace(/[^a-zA-Z0-9_-]/g, '')}_${forProfessor ? 'Prof' : 'Eleve'}.pdf`);
 }
 
 pdfProfBtn.addEventListener('click', () => generatePdf(true));
@@ -461,12 +524,12 @@ newSessionBtn.addEventListener('click', () => {
         sessionNameInput.value = '';
         sessionTypeCheckboxes.forEach(cb => cb.checked = false);
 
-        // Reset all selects to default and disable them
+        // Reset and disable all main selects
         phaseSelect.value = '';
-        populateActivities(''); // Clears and disables activity/task/problematic selects
+        populateActivities(''); // This will reset activity, task, problematic selects as well
         activitySelect.disabled = true;
         taskSelect.disabled = true;
-        problematicsData.disabled = true;
+        problematicSelect.disabled = true;
         expectedResultTextarea.value = '';
 
         competenceSelect.value = '';
@@ -476,8 +539,9 @@ newSessionBtn.addEventListener('click', () => {
         // Uncheck all "On donne" checkboxes
         onDonneList.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
 
-        // Go back to the first page
+        // Go back to the first page and update preview
         showPage(1);
+        updatePreview();
     }
 });
 
@@ -503,37 +567,52 @@ function updatePreview() {
                                             .map(cb => cb.value);
 
     let previewHtml = `
-        <p><strong>Nom de la Séquence:</strong> ${sequenceName}</p>
-        <p><strong>Nom de la Séance:</strong> ${sessionName}</p>
-        <p><strong>Type de Séance:</strong> ${sessionType}</p>
+        <h3>Informations Générales</h3>
+        <p><strong>Nom de la Séquence:</strong> ${escapeHtml(sequenceName)}</p>
+        <p><strong>Nom de la Séance:</strong> ${escapeHtml(sessionName)}</p>
+        <p><strong>Type de Séance:</strong> ${escapeHtml(sessionType)}</p>
         <hr>
-        <p><strong>Phase:</strong> ${phase}</p>
-        <p><strong>Activité:</strong> ${activity}</p>
-        <p><strong>Tâche Professionnelle:</strong> ${task}</p>
-        <p><strong>Problématique:</strong> ${problematic}</p>
-        <p><strong>Résultat Attendu:</strong> ${expectedResult}</p>
+        <h3>Détails de la Séance</h3>
+        <p><strong>Phase:</strong> ${escapeHtml(phase)}</p>
+        <p><strong>Activité:</strong> ${escapeHtml(activity)}</p>
+        <p><strong>Tâche Professionnelle:</strong> ${escapeHtml(task)}</p>
+        <p><strong>Problématique:</strong> ${escapeHtml(problematic)}</p>
+        <p><strong>Résultat Attendu:</strong> ${escapeHtml(expectedResult)}</p>
         <hr>
+        <h3>Ressources et Compétences</h3>
         <p><strong>Ressources ("On donne"):</strong></p>
         <ul>
-            ${selectedOnDonne.length > 0 ? selectedOnDonne.map(item => `<li>${item}</li>`).join('') : '<li>Aucune ressource sélectionnée.</li>'}
+            ${selectedOnDonne.length > 0 ? selectedOnDonne.map(item => `<li>${escapeHtml(item)}</li>`).join('') : '<li>Aucune ressource sélectionnée.</li>'}
         </ul>
-        <hr>
-        <p><strong>Compétence Visée:</strong> ${competenceSelect.value || 'Non spécifié'}</p>
+        <p><strong>Compétence Visée:</strong> ${escapeHtml(competenceSelect.value || 'Non spécifié')}</p>
         <p><strong>Être capable de:</strong></p>
         <ul>
-            ${selectedEtreCapable.length > 0 ? selectedEtreCapable.map(item => `<li>${item}</li>`).join('') : '<li>Non spécifié</li>'}
+            ${selectedEtreCapable.length > 0 ? selectedEtreCapable.map(item => `<li>${escapeHtml(item)}</li>`).join('') : '<li>Non spécifié</li>'}
         </ul>
         <p><strong>Conditions/Ressources (Prof):</strong></p>
         <ul>
-            ${selectedConditionsRessources.length > 0 ? selectedConditionsRessources.map(item => `<li>${item}</li>`).join('') : '<li>Non spécifié</li>'}
+            ${selectedConditionsRessources.length > 0 ? selectedConditionsRessources.map(item => `<li>${escapeHtml(item)}</li>`).join('') : '<li>Non spécifié</li>'}
         </ul>
         <p><strong>Critères d'Évaluation (Prof):</strong></p>
         <ul>
-            ${selectedCriteresEvaluation.length > 0 ? selectedCriteresEvaluation.map(item => `<li>${item}</li>`).join('') : '<li>Non spécifié</li>'}
+            ${selectedCriteresEvaluation.length > 0 ? selectedCriteresEvaluation.map(item => `<li>${escapeHtml(item)}</li>`).join('') : '<li>Non spécifié</li>'}
         </ul>
     `;
     sessionPreview.innerHTML = previewHtml;
 }
+
+// Helper to prevent XSS in preview
+function escapeHtml(text) {
+    const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+}
+
 
 function updatePdfButtonStates() {
     const isProblematicSelected = problematicSelect.value !== '';
